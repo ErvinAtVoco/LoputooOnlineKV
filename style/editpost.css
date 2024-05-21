@@ -1,0 +1,186 @@
+.text-red {
+    color: #ff1100;
+}
+
+.container {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-object {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.form-object label {
+    font-size: 20px;
+    font-weight: 400;
+    width: 40%;
+    color: #131313;
+    display: flex;
+}
+
+.form-object select {
+    padding-left: 20px;
+    display: flex;
+    margin-left: auto;
+    font-size: 20px;
+    font-weight: 400;
+    border-radius: 60px;
+    background-color: #FFFFFF;
+    width: 60%;
+}
+
+.form-object input {
+    display: flex;
+    margin-left: auto;
+    padding-left: 20px;
+    font-size: 20px;
+    font-weight: 400;
+    border-radius: 60px;
+    margin-bottom: 20px;
+    background-color: #FFFFFF;
+    width: 60%;
+}
+
+
+.form-object-checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 225px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.form-object-checkbox label {
+    font-size: 20px;
+    font-weight: 400;
+    width: 150px;
+    color: #131313;
+    display: flex;
+}
+
+.form-object-checkbox input[type="checkbox"] {
+    margin-right: auto;
+    height: 24px;
+    width: 24px;
+    accent-color: #F85530;
+}
+
+.form-object-files {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+
+.upload-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-top: 25px;
+    background-color: #4E56D3;
+    color: #F6F5F7;
+    width: 143px;
+    height: 60px;
+    border-radius: 50px;
+    font-size: 22px;
+    line-height: 33px;
+    font-weight: 500;
+}
+
+.uploaded-files {
+    width: 100%;
+    padding: 20px;
+    min-height: 170px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 15px;
+    position: relative;
+    border-radius: 60px;
+    background-color: #FFFFFF;
+}
+
+.uploaded-files .uploaded-image {
+  height: 150px;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+.uploaded-files .uploaded-image:nth-child(4n) {
+  margin-right: 0;
+}
+
+.uploaded-files .uploaded-image img {
+  height: 100%;
+  width: 100%;
+}
+
+.uploaded-files .uploaded-image span {
+  position: absolute;
+  top: -6px;
+  right: 4px;
+  cursor: pointer;
+  font-size: 22px;
+  color: #FFFFFF;
+}
+
+.delete-image-button {
+    color: #ff1100;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 1px 1px 2px #545454;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.form-section {
+    background-color: #F6F5F7;
+    padding: 60px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.form-section h3 {
+    font-size: 32px;
+    line-height: 32px;
+    margin-bottom: 50px;
+    font-weight: 700;
+}
+
+.container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: flex;
+}
+
+.left-container {
+    padding-right: 20px;
+    width: 50%;
+}
+
+.right-container {
+    padding-left: 20px;
+    width: 50%;
+}
+
+.double-section {
+    display: flex;
+    gap: 20px;
+}

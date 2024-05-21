@@ -1,0 +1,429 @@
+/* Add custom font */
+@import url('https://fonts.cdnfonts.com/css/satoshi');
+
+textarea {
+    resize: vertical;
+}
+
+* {
+    font-family: 'Satoshi', sans-serif;
+}
+
+
+
+.text-red {
+    color: #ff1100;
+}
+
+.hidden {
+    display: none;
+}
+
+.form-object {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.form-object label {
+    font-size: 20px;
+    font-weight: 400;
+    width: 40%;
+    color: #131313;
+    display: flex;
+}
+
+.form-object select {
+    padding-left: 20px;
+    display: flex;
+    margin-left: auto;
+    font-size: 20px;
+    font-weight: 400;
+    border-radius: 60px;
+    background-color: #FFFFFF;
+    width: 60%;
+}
+
+.form-object input {
+    display: flex;
+    margin-left: auto;
+    padding-left: 20px;
+    font-size: 20px;
+    font-weight: 400;
+    border-radius: 60px;
+    margin-bottom: 20px;
+    background-color: #FFFFFF;
+    width: 60%;
+}
+
+
+.form-object-checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 225px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.form-object-checkbox label {
+    font-size: 20px;
+    font-weight: 400;
+    width: 150px;
+    color: #131313;
+    display: flex;
+}
+
+.form-object-checkbox input[type="checkbox"] {
+    margin-right: auto;
+    height: 24px;
+    width: 24px;
+    accent-color: #F85530;
+}
+
+.form-object-files {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.upload-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-top: 25px;
+    background-color: #4E56D3;
+    color: #F6F5F7;
+    width: 143px;
+    height: 60px;
+    border-radius: 50px;
+    font-size: 22px;
+    line-height: 33px;
+    font-weight: 500;
+}
+
+.uploaded-files {
+    width: 100%;
+    padding: 20px;
+    min-height: 170px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 15px;
+    position: relative;
+    border-radius: 60px;
+    background-color: #FFFFFF;
+}
+
+.uploaded-files .uploaded-image {
+  height: 150px;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+.uploaded-files .uploaded-image:nth-child(4n) {
+  margin-right: 0;
+}
+
+.uploaded-files .uploaded-image img {
+  height: 100%;
+  width: 100%;
+}
+
+.uploaded-files .uploaded-image span {
+  position: absolute;
+  top: -6px;
+  right: 4px;
+  cursor: pointer;
+  font-size: 22px;
+  color: #FFFFFF;
+}
+
+.delete-image-button {
+    color: #ff1100;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 1px 1px 2px #545454;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.form-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    width: 80%;
+}
+
+.steps {
+    width: 60%;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.step {
+    height: 124px;
+    width: 124px;
+}
+
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    color: #B4B4B4;
+    background-color: #F6F5F7;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 32px;
+    width: 88px;
+    height: 88px;
+    gap: 10px;
+    border-radius: 100%;
+
+}
+
+.step-title {
+    text-align: center;
+    color: #000000;
+    margin-top: 10px;
+    font-size: 26px;
+    line-height: 26px;
+    font-weight: 700;
+}
+
+.step-indicator-current {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    color: #FFFFFF;
+    background-color: #4E56D3;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 32px;
+    width: 88px;
+    height: 88px;
+    gap: 10px;
+    border-radius: 100%;
+}
+
+.select-type-container {
+    width: 100%;
+    border-radius: 20px;
+    background-color: #F6F5F7;
+}
+
+.type {
+    display: flex;
+}
+
+.type h3 {
+    margin-right: auto;
+    color: #131313;
+    font-size: 32px;
+    line-height: 32px;
+    font-weight: 700;
+}
+
+.marketing-button {
+    background-color: #FFFFFF;
+    width: 245px;
+    height: 100px;
+    border-radius: 20px;
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 700;
+    margin-right: 24px;
+}
+
+.button-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+}
+
+.marketing-button-selected {
+    text-align: center;
+    background-color: #4E56D3;
+    width: 245px;
+    height: 100px;
+    border-radius: 20px;
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 700;
+    margin-right: 24px;
+}
+
+.marketing-button-selected h3 {
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.realestate-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #FFFFFF;
+    height: 140px;
+    width: 140px;
+    border-radius: 20px;
+    margin-right: 24px;
+}
+
+.realestate-button div {
+    flex-direction: column;
+    width: 80px;
+    height: 80px;
+}
+
+.realestate-button div h5 {
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 700;
+}
+
+.realestate-button div i {
+    font-size: 50px;
+    color: #4E56D3;
+}
+
+.realestate-button-selected {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #4E56D3;
+    color: #FFFFFF;
+    height: 140px;
+    width: 140px;
+    border-radius: 20px;
+    margin-right: 24px;
+}
+
+.realestate-button-selected div {
+    flex-direction: column;
+    width: 80px;
+    height: 80px;
+}
+
+.realestate-button-selected div h5 {
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 700;
+}
+
+.realestate-button-selected div i {
+    font-size: 50px;
+}
+
+.next-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    background-color: #4E56D3;
+    color: #F6F5F7;
+    width: 143px;
+    height: 60px;
+    border-radius: 50px;
+    font-size: 22px;
+    line-height: 33px;
+    font-weight: 500;
+}
+
+.disabled {
+    background-color: rgb(226, 226, 226) !important;
+    cursor: default;
+}
+
+.form-section {
+    background-color: #F6F5F7;
+    padding: 60px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.form-section h3 {
+    font-size: 32px;
+    line-height: 32px;
+    margin-bottom: 50px;
+    font-weight: 700;
+}
+
+.container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: flex;
+}
+
+.left-container {
+    padding-right: 20px;
+    width: 50%;
+}
+
+.right-container {
+    padding-left: 20px;
+    width: 50%;
+}
+
+.double-section {
+    display: flex;
+    gap: 20px;
+}
+
+.title-input {
+    width: 100% !important;
+    margin-bottom: 20px;
+}
+
+.form-object-description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.description-input {
+    width: 100%;
+    height: 600px;
+    margin-bottom: 20px;
+}
+
+.preview-image-container {
+    width: 960px;
+    height: 639px;
+}
+
+.preview-image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}

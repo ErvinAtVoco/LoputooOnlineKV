@@ -121,21 +121,18 @@ function checkFieldsRegex(fieldArray) {
 			case "text":
 				if (!freeTextPattern.test(field.value)) {
 					highlightError(field);
-					field.value = "";
 					return false;
 				}
 				break;
 			case "number":
 				if (!indexPattern.test(field.value)) {
 					highlightError(field);
-					field.value = "";
 					return false;
 				}
 				break;
 			case "select-one":
 				if(field.value === "") {
 					highlightError(field);
-					field.value = "";
 					return false;
 				}
 				break;

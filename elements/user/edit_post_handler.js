@@ -1,23 +1,96 @@
-// Define variables to recieve gallery info
+// Define variables to recieve images info
 let galleryIds = [];
 let galleryUrls = [];
+let thumbnailId = [];
+let thumbnailUrl = [];
 
-// Define variables to upload new gallery images
+// Define variables to upload new images
+let thumbnailImage = [];
 let galeriiImgsToUpload = [];
 
 // Variable to store HTML elements
+let thImage = "";
 let galleryDisplay = "";
 
-// Define query selectors
+// Define query selectors for gallery
 let uploadedFilesDiv = document.querySelector("#galerii-uploaded");
 let input = document.querySelector("#galerii-input")
 let uploadButton = document.querySelector("#galerii-button")
 
-// Function to recieve gallery info from php on element load
-function transferGalleryInfo(galIds, galUrls) {
+//Define query selectors for thumbnail
+let uploadedThumbnailDiv = document.querySelector("#thumbnail-uploaded");
+let thumbnailInput = document.querySelector("#thumbnail-input");
+let thumbnailInputDiv = document.querySelector("#thumbnail-input-div")
+let thumbnailUploadButton = document.querySelector("#thumbnail-button");
+
+// Function to recieve images info from php on element load
+function transferAttachmentInfo(galIds, galUrls, thumbId, thumbUrl) {
     galleryIds = galIds;
     galleryUrls = galUrls;
-    showExistingGallery();
+    thumbnailId = thumbId;
+    thumbnailUrl = thumbUrl;
+    if (thumbnailUrl.length !== 0) {
+        showExistingThumbnail(thumbnailId, thumbnailUrl);
+    }
+    if (galleryUrls.length !== 0) {
+        showExistingGallery();
+    }
+};
+
+// Function to display the thumbnail already uploaded with the post 
+function showExistingThumbnail(thumbId, thumbUrl) {
+		thImage += `<div class="uploaded-image">
+						<img src="${thumbUrl[0]}" alt="image">
+						<span class="delete-image-button" onclick="deleteThumbnailImage(0)"><i class="fa-solid fa-trash-can text-red"></i></span>
+					</div>`
+	uploadedThumbnailDiv.innerHTML = thImage;
+};
+
+// Function to delete already uploaded thumbnail
+function deleteExistingThumbnail(index) {
+    thImage = "";
+	thumbnailId.splice(index, 1);
+    thumbnailUrl.splice(index, 1);
+    uploadedThumbnailDiv.innerHTML = thImage;
+}
+
+// onclick handler to handle upload button click
+thumbnailUploadButton.onclick = function (event) {
+	event.preventDefault();
+	thumbnailInput.click();
+}
+
+// Eventlistener to handle input change
+thumbnailInput.addEventListener("change", (event) => {
+	event.preventDefault();
+	if (thumbnailImage.length > 0) {
+		deleteThumbnailImage(0);
+	}
+    if (thumbnailId.length > 0) {
+        deleteExistingThumbnail(0);
+    }
+	const file = thumbnailInput.files;
+	thumbnailImage.push(file[0]);
+	displayThumbnail();
+	thumbnailInput.value = "";
+});
+
+// Function to display the thumbnail image
+function displayThumbnail() {
+	let thImage = "";
+	thumbnailImage.forEach((image, index) => {
+		thImage += `<div class="uploaded-image">
+						<img src="${URL.createObjectURL(image)}" alt="image">
+						<span class="delete-image-button" onclick="deleteThumbnailImage(${index})"><i class="fa-solid fa-trash-can text-red"></i></span>
+					</div>`
+	});
+	uploadedThumbnailDiv.innerHTML = thImage;
+};
+
+// Function to delete the thumbnail image
+function deleteThumbnailImage(index) {
+	thumbnailImage.splice(index, 1);
+	displayThumbnail();
 };
 
 // Function to display the images already uploaded with the post

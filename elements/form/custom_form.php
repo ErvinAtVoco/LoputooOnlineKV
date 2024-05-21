@@ -71,21 +71,6 @@ function uus_kuulutus_form()
 			})
 		}
 	</script>
-	<!--------------------------->
-	<!----User-register-pop-up--->
-	<!--------------------------->
-	<div id="kasutaja-loomine" class="kasutaja-loomine">
-		<form id="uus-kasutaja-form">
-			<?php wp_nonce_field('user_nonce_action', 'user_nonce'); ?>
-			<label for="email">Email<span class="text-red">*</span></label>
-			<input type="text" id="email" name="email" required />
-			<label for="telefon">Telefon<span class="text-red">*</span></label>
-			<input type="text" id="telefon" name="telefon" required />
-			<label for="nimi">Nimi<span class="text-red">*</span></label>
-			<input type="text" id="nimi" name="nimi" required />
-			<input type="submit" name="submit" />
-		</form>
-	</div>
 
 	<!--------------------------->
 	<!---Steps to compplete form-->
@@ -343,6 +328,18 @@ function uus_kuulutus_form()
 					</div>
 				</div>
 			</div>
+			<div id="kasutaja-loomine" class="kasutaja-loomine">
+				<form id="uus-kasutaja-form">
+					<?php wp_nonce_field('user_nonce_action', 'user_nonce'); ?>
+					<label for="email">Email<span class="text-red">*</span></label>
+					<input type="email" id="email" name="email" required />
+					<label for="telefon">Telefon<span class="text-red">*</span></label>
+					<input type="text" id="telefon" name="telefon" required />
+					<label for="nimi">Nimi<span class="text-red">*</span></label>
+					<input type="text" id="nimi" name="nimi" required />
+					<button type="button" onclick="createUser()">Loo Kasutaja</button>
+				</form>
+		</div>
 			<button class="next-button" type="button" onclick="nextForm(); submitCurrentForm(0)">
 				Jätka →
 			</button>

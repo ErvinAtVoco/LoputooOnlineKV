@@ -19,7 +19,7 @@ function handle_create_post()
 	}
 
 	if (!is_user_logged_in()) {
-		wp_send_json_error('Kasutaja pole sisse logitud', 401);
+		wp_send_json_error('Palun looge kasutaja', 401);
 		wp_die();
 	}
 
@@ -166,7 +166,7 @@ function handle_create_post()
 			];
 
 			$post_id = wp_update_post($post_data);
-			error_log("This is the posts ID in case 2:" . $post_id);
+			error_log("Made it past post_data creation" . $post_id);
 
 			// Get Wordpress upload directory
 			$upload_dir = wp_upload_dir();
@@ -174,13 +174,15 @@ function handle_create_post()
 			// Create user file path
 			$user_file_path = $upload_dir['basedir'] . '/' . 'users' . '/' . 'user-' . $user_id;
 
+			error_log("Got upload dir and user_file_path" . $post_id);
+
+
 			/////////////////////////////////
 			/////// Thumbnail and gallery creation
 			/////////////////////////////////
 
 			$thumbnail_attachment_id = "";
 			$thumbnail = $_FILES['thumbnail'];
-			error_log(json_encode($thumbnail));
 
 			if (is_array($thumbnail['name'])) {
 				$thumbnail_image = array(
@@ -194,8 +196,9 @@ function handle_create_post()
 				$thumbnail_attachment_id = process_uploaded_image($thumbnail_image);
 			};
 
+			error_log("Thumbnail created" . $post_id);
+
 			$galerii = $_FILES['uploads'];
-			error_log(json_encode($galerii));
 			$galerii_attachment_ids = [];
 
 			if (is_array($galerii['name'])) {
@@ -214,6 +217,8 @@ function handle_create_post()
 					array_push($galerii_attachment_ids, $galerii_attachment_id);
 				}
 			}
+
+			error_log("Galerii created" . $post_id);
 
 			// Set post thumbnail
 			set_post_thumbnail($post_id, $thumbnail_attachment_id);

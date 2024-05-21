@@ -10,7 +10,26 @@
  * @author Raikko
  * @return array Array of all posts related to search arguments
  */ 
-function return_posts($id, $amount, $type){
+
+ function return_posts($id, $type){
+	$args = array(
+		'post_type' => 'kuulutus',
+		'numberposts' => 10,
+		'post_status' => 'publish',
+		'author' => $id,
+		'tax_query' => array(
+			array(
+				'taxonomy' => 'tehingu_tuup',
+				'field' => 'slug',
+				'terms' => $type,
+			)
+		)
+	);
+
+	return get_posts($args);
+ }
+
+/*  function return_posts($id, $amount, $type){
 	$args = [
 		'post_type' => 'kuulutus',
 		'numberposts' => $amount,
@@ -26,7 +45,7 @@ function return_posts($id, $amount, $type){
 	];
 
 	return get_posts($args);
-}
+} */
 
 
 /**
@@ -93,15 +112,18 @@ function user_interface()
 
 	// GET ÜÜR
 
-	$uur_posts = set_post_data(return_posts($user_id, -1, 'uur'), 'uur');
+	$uur_posts = set_post_data(return_posts(2, 'uur'), 'uur');
+	error_log(json_encode($uur_posts));
 
 	// Get müük
 
-	$muuk_posts = set_post_data(return_posts($user_id, -1, 'muuk'), 'muuk');
+	$muuk_posts = set_post_data(return_posts(2, 'muuk'), 'muuk');
+	error_log(json_encode($muuk_posts));
 
 	// Get müük
 
-	$luhaja_posts = set_post_data(return_posts($user_id, -1, 'luhiajaline-uur'), 'luhiajaline-uur');
+	$luhaja_posts = set_post_data(return_posts(2, 'luhiajaline-uur'), 'luhiajaline-uur');
+	error_log(json_encode($luhaja_posts));
 
 	ob_start(); ?>
 	<script src="https://kit.fontawesome.com/dbe83c52a8.js" crossorigin="anonymous"></script>
@@ -166,6 +188,8 @@ function user_interface()
 					}
 				?>
 			</div>
+			<button onclick="nextPosts(muuk)">Next</button>
+			<button onclick="prevPosts(type)">Back</button>
 		</div>
 
 		<div class="post-sections">

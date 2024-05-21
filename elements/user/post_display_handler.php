@@ -2,47 +2,47 @@
 
 $user_id = get_current_user_id();
 
-// function next_render()
-// {
-//     check_ajax_referer( 'validation', 'nonce');
-//     if(!isset($_SESSION)) 
-//     { 
-//         session_start(); 
-//     } 
-//     $type = $_POST['type'];
-//     $value = 'max_render_' . $type;
+function next_render()
+{
+    check_ajax_referer( 'validation', 'nonce');
+    if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    } 
+    $type = $_POST['type'];
+    $value = 'max_render_' . $type;
 
-//     $_SESSION[$value] = isset($_SESSION[$value]) ? $_SESSION[$value] + 5 : 0;
+    $_SESSION[$value] = isset($_SESSION[$value]) ? $_SESSION[$value] + 5 : 0;
 
-//     header('Content-Type: application/json');
+    header('Content-Type: application/json');
 
-//     $args = get_args($type, $value);
+    $args = get_args($type, $value);
 
-//     echo render_posts($args);
+    echo render_posts($args);
 
-//     wp_die();
-// }
+    wp_die();
+}
 
-// function prev_render()
-// {
-//     check_ajax_referer( 'validation', 'nonce');
-//     if(!isset($_SESSION)) 
-//     { 
-//         session_start(); 
-//     } 
-//     $type = $_POST['type'];
-//     $value = 'max_render_' . $type;
+function prev_render()
+{
+    check_ajax_referer( 'validation', 'nonce');
+    if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    } 
+    $type = $_POST['type'];
+    $value = 'max_render_' . $type;
 
-//     $_SESSION[$value] = isset($_SESSION[$value]) ? $_SESSION[$value] - 5 : 0;
+    $_SESSION[$value] = isset($_SESSION[$value]) ? $_SESSION[$value] - 5 : 0;
 
-//     header('Content-Type: application/json');
+    header('Content-Type: application/json');
 
-//     $args = get_args($type, $value);
+    $args = get_args($type, $value);
 
-//     echo render_posts($args);
+    echo render_posts($args);
 
-//     wp_die();
-// }
+    wp_die();
+}
 
 function delete_selected_post() 
 {
@@ -65,14 +65,14 @@ function delete_selected_post()
 
     wp_delete_post($id);
 
-    // if($type === 'uur')
-    // {
-    //     $max_render = 'max_render_uur';
-    // }
-    // else if ($type === 'muuk')
-    // {
-    //     $max_render = 'max_render_muuk';
-    // }
+    if($type === 'uur')
+    {
+        $max_render = 'max_render_uur';
+    }
+    else if ($type === 'muuk')
+    {
+        $max_render = 'max_render_muuk';
+    }
 
 
     header('Content-Type: application/json');
@@ -83,20 +83,20 @@ function delete_selected_post()
     wp_die();
 }
 
-function get_args($type)
+function get_args($type, $value)
 {
     if(!isset($_SESSION)) 
     { 
         session_start(); 
     } 
     global $user_id;
-    // $max_render = isset($_SESSION[$render_amount]) ? $_SESSION[$render_amount] : 0;
+    $max_render = isset($_SESSION[$value]) ? $_SESSION[$value] : 0;
 
     $args = [
         'post_type' => 'kuulutus',
         'post_status' => 'publish',
         'author' => $user_id,
-        'offset' => -1,
+        'offset' => $max_render,
         'tax_query' => [
             [
                 'taxonomy' => 'tehingu-tuup',

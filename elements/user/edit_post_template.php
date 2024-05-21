@@ -16,6 +16,11 @@ function render_edit_post_template()
 
     error_log(print_r($data, true));
 
+    // Get Thumbnail id and url
+    $thumbnail_id = get_post_thumbnail_id($id);
+    $thumbnail_url = get_the_post_thumbnail_url($id);
+
+    // Get Gallery ids and urls
     $gallery_urls = [];
     $gallery_ids = get_field('galerii', $id);
     foreach ($gallery_ids as $gallery_id) {
@@ -79,11 +84,17 @@ function render_edit_post_template()
             let innerData;
             let temp;
 
+            // Get thumbnail info
+            let thumbnailId = '<?php echo json_encode($thumbnail_id)?>'
+            let thumbnailUrl = '<?php echo json_encode($thumbnail_url)?>
+            
             // Get gallery info
             let galleryIds = '<?php echo json_encode($gallery_ids) ?>';
             let galleryUrls = '<?php echo json_encode($gallery_urls) ?>';
 
             // Clear unexpected results from json_encoding
+            thumbnailId = JSON.parse(thumbnailId);
+            thumbnailUrl = JSON.parse(thumbnailUrl);
             galleryIds = JSON.parse(galleryIds);
             galleryUrls = JSON.parse(galleryUrls);
 
@@ -132,7 +143,7 @@ function render_edit_post_template()
             })
 
             // Send gallery data to js
-            transferGalleryInfo(galleryIds, galleryUrls);
+            transferAttachmentInfo(galleryIds, galleryUrls, thumbnailId, thumbnailUrl);
         }
     </script>
 

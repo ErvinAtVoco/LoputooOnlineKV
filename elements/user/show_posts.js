@@ -1,4 +1,4 @@
-jQuery(function ($) {
+/* jQuery(function ($) {
     $.ajax({
         type: 'POST',
         url: myAjax.ajaxurl,
@@ -27,7 +27,7 @@ jQuery(function ($) {
             console.log(error);
         }
     })
-});
+}); */
 
 function nextPosts(type) {
     jQuery(function ($) {

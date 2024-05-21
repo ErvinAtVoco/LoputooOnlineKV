@@ -1,2 +1,5 @@
-# LoputooOnlineKV
-Ervin Tombak ja Raikko Prants lõputöö Tartu Rakenduslik Kolledži noorema tarkvaraarendaja eriala kursusel.
+# Noorema tarkvaraarendaja eriala kursuse lõputöö
+Autorid: Ervin Tombak, Raikko Prants
+Juhendaja: Jüri Heinaste
+
+Ettevõttes Easy Web Solutions OÜ

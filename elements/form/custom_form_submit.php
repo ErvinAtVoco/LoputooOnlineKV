@@ -14,6 +14,14 @@ function send_error($msg, $error_code) {
 	wp_die();
 }
 
+/**
+ * Creates a new post
+ * 
+ * @param array Recieves form data from POST
+ * 
+ * @author Ervin, Raikko
+ */ 
+
 function handle_create_post()
 {
 
@@ -47,7 +55,6 @@ function handle_create_post()
 			$linn_vald = $_POST['linn-vald'];
 			$asula = $_POST['asula'];
 			$tanav = $_POST['tänav'];
-			$omandivorm = $_POST['omandivorm'];
 
 			if(!check_regex_of_array([$maakond, $linn_vald, $asula, $tanav], $free_text_pattern, true)){
 				send_error("", 0);
@@ -81,6 +88,10 @@ function handle_create_post()
 
 			$korterMaja = $_POST['korter'] ? $_POST['maja-nr'] . '-' . $_POST['korter'] : $_POST['maja-nr'];
 
+
+			error_log(print_r($_POST['realEstateType'], true));
+			error_log(print_r($_POST['salesType'], true));
+
 			$post_data = [
 				"post_title" => $_POST['tubade-arv'] . ' tuba, ' . $tanav . ' ' . $korterMaja . ' ' . $asula . ' ' . $linn_vald . ' ' . $maakond,
 				"post_status" => "draft",
@@ -94,7 +105,7 @@ function handle_create_post()
 					"postiindeks" => $_POST['postiindeks'],
 					"katastrinumber" => $_POST['katastrinumber'],
 					"kinnistu_number" => $_POST['kinnistu-number'],
-					"omandivorm" => $omandivorm,
+					"omandivorm" => $_POST['omandivorm'],
 					"ehitusaasta" => $_POST['ehitusaasta'],
 					"seisukord" => $_POST['seisukord'],
 					"pindala" => $_POST['pindala'],
@@ -117,6 +128,7 @@ function handle_create_post()
 
 			
 			$post_id = wp_insert_post($post_data);
+			error_log(print_r($post_data, true));
 
 			if (is_wp_error($post_id)) {
 				error_log("Failed to insert post: " . $post_id->get_error_message());
@@ -262,6 +274,8 @@ function handle_create_post()
 
 			// Set galerii images
 			update_field("galerii", $galerii_attachment_ids, $post_id);
+
+			error_log("Final countdown");
 	}
 	wp_die();
 }

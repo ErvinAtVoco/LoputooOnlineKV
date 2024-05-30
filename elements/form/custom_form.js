@@ -188,14 +188,18 @@ function submitCurrentForm(segment) {
 		formData.append(`uploads[]`, image);
 	});
 
+	if(!isUserLoggedIn()) {
+		return;
+	}
+
 	// Perform the AJAX request
 	jQuery(function ($) {
 		$.ajax({
 			type: 'post',
 			url: myAjax.ajaxurl,
 			data: formData,
-			contentType: false,
 			processData: false,
+			contentType: false,
 			error: function (xhr, status, error) {
 				let errorMsg = `${JSON.parse(xhr.responseText).data}`;
 				errorContainer.innerHtml = "";

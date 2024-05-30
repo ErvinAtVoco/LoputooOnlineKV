@@ -72,8 +72,9 @@ thumbnailInput.addEventListener("change", (event) => {
 	if (thumbnailImage.length > 0) {
 		deleteThumbnailImage(0);
 	}
-    if (thumbnailId.length > 0) {
+    if (thumbnailId !== "") {
         deleteExistingThumbnail(0);
+		console.log("Deleted thumbnail that was old!");
     }
 	const file = thumbnailInput.files;
 	thumbnailImage.push(file[0]);
@@ -158,3 +159,47 @@ function deleteUploadedImage(index) {
     }
 	displayUploadedImages();
 };
+
+// Function to submit form data
+function submitEdits(id) {
+
+	var form = document.querySelector('#edit-listing-form');
+
+	// Create a FormData object to handle files and form data
+	var formData = new FormData(form);
+
+	// Append action, nonce and post id
+	formData.append('action', 'submit-edit-post');
+	formData.append('nonce', myAjax.ajaxNonce);
+    formData.append('id', id);
+
+	// apppend image data
+	formData.append('thumbnail-old', thumbnailId);
+
+	galleryIds.forEach((galleryId) => {
+        formData.append('gallery-old[]', galleryId);
+    });
+	
+	thumbnailImage.forEach((image, index) => {
+		formData.append(`thumbnail[]`, image);
+	});
+
+	galeriiImgsToUpload.forEach((image, index) => {
+		formData.append(`uploads[]`, image);
+	});
+
+
+	// Perform the AJAX request
+	jQuery(function ($) {
+		$.ajax({
+			type: 'post',
+			url: myAjax.ajaxurl,
+			data: formData,
+			processData: false,
+			contentType: false,
+			error: function (xhr, status, error) {
+				console.log(error);
+			}
+		})
+	});
+}

@@ -1,58 +1,5 @@
 <?php
 
-/**
- * Returns the response of get_posts() with the created arguments passed to the function
- *
- * @param integer   $id  The currently active and verified users ID
- * @param integer $amount How many times posts would you like to display (-1 all) by default is 5
- * @param string $type What type of posts are you looking for ( enter  taxonomy term for tehingu-tuup)
- * 
- * @author Raikko
- * @return array Array of all posts related to search arguments
- */ 
-
- function return_posts($id, $type){
-	$args = array(
-		'post_type' => 'kuulutus',
-		'post_status' => array('publish','draft'),
-		'author' => $id,
-		'tax_query' => array(
-			array(
-				'taxonomy' => 'tehingu_tuup',
-				'field' => 'slug',
-				'terms' => $type,
-			)
-		)
-	);
-
-	return get_posts($args);
- }
-
-
-
-/**
- * Returns posts array with edited and added fields for rending to frontend
- *
- * @param array   $posts  Array of posts that need to be edited for rendering
- * @param string $type Type of posts that need to be changed, this sets the posts object type to given parameter
- * 
- * @author Raikko
- * @return array Array that is ready to be rendered to frontend user interface
- */ 
-function set_post_data($posts, $type) {
-
-	global $wpdb;
-
-	for ($i = 0; $i < count($posts); $i++) {
-        $posts[$i]->type = $type;
-		$posts[$i]->status = get_post_status($posts[$i]->ID);
-        $posts[$i]->post_date = date("d-m-Y", strtotime($posts[$i]->post_date));
-        $posts[$i]->price = $wpdb->get_var($wpdb->prepare("SELECT meta_value FROM wp_postmeta WHERE meta_key = 'hind' AND post_id = %s", $posts[$i]->ID));
-        $posts[$i]->image = get_the_post_thumbnail_url($posts[$i]->ID);
-    }
-
-	return $posts;
-}
 
 function user_interface()
 {
@@ -90,25 +37,56 @@ function user_interface()
 	$kasutaja_punktid = intval($wpdb->get_var($bonus_punktid)) + intval($wpdb->get_var($ostetud_punktid));
 
 	//////////////////////////////////////////
+	// GET USER SUBSCRIPTION
+	//////////////////////////////////////////
+
+	$pakett_päring = $wpdb->prepare("SELECT meta_value FROM wp_usermeta WHERE meta_key = 'subscription' AND user_id = %s", $user_id);
+	$pakett_tase = $wpdb->get_var($pakett_päring);
+	switch ($pakett_id) {
+		case 0:
+			$pakett = "Tellimuse pakett puudub!";
+			break;
+		case 1:
+			$pakett = "Pronks";
+			break;
+		case 2: 
+			$pakett = "Silver";
+			break;
+		case 3:
+			$pakett = "Kuld";
+			break;
+		case 4: 
+			$pakett = "Eraisik";
+			break;
+		case 5:
+			$pakett = "Majautus";
+			break;
+	};
+
+	//////////////////////////////////////////
 	// GET USER POSTS
 	//////////////////////////////////////////
 
 	// GET ÜÜR
 
-	$uur_posts = set_post_data(return_posts(2, 'uur'), 'uur');
+	$uur_posts = set_post_data(return_posts($user_id, 'uur'), 'uur');
 
 	// Get müük
 
-	$muuk_posts = set_post_data(return_posts(2, 'muuk'), 'muuk');
+	$muuk_posts = set_post_data(return_posts($user_id, 'muuk'), 'muuk');
 
 	// Get müük
 
-	$luhaja_posts = set_post_data(return_posts(2, 'luhiajaline-uur'), 'luhiajaline-uur');
+	$luhaja_posts = set_post_data(return_posts($user_id, 'luhiajaline-uur'), 'luhiajaline-uur');
 
 	ob_start(); ?>
 	<script src="https://kit.fontawesome.com/dbe83c52a8.js" crossorigin="anonymous"></script>
 	<div id='popup-container' class="popup"></div>
 	<div class="container">
+		<div>
+			<h5>Teie pakett:</h5>
+			<h3><?php echo $pakett?></h3>
+		</div>
 		<div>
 			<h5>Sinu punktid</h5>
 			<h3><?php echo $kasutaja_punktid ?></h3>
@@ -119,11 +97,17 @@ function user_interface()
 			<h3></h3>
 			<p>7 päeva vaatamised</p>
 		</div>
+
+		<div>
+			<!-- Temporarily hardcoded redirect for flow on website -->
+			<a class="redirect-button" href="https://easyweb.ee/kv/test-post-preview/">Loo uus kuulutus</a>
+		</div>
+
 		<h3 class="section-title">Aktiivsed kuulutused(<?php echo count($muuk_posts) + count($uur_posts) + count($luhaja_posts) ?>)</h3>
 
 		<div class="post-sections">
 				<div class="section-seperator">
-					<h5 id="section-type" class="column-name">Müük (<?php echo count($muuk_posts) ?>)</h5>
+					<h5 id="section-type" class="column-name">Müük <span id="count-muuk">(<?php echo count($muuk_posts) ?>)</span></h5>
 				</div>
 				<div class="section-seperator">
 					<h5 class="column-name">Aadress</h5>
@@ -177,7 +161,7 @@ function user_interface()
 
 		<div class="post-sections">
 				<div class="section-seperator">
-					<h5 id="section-type" class="column-name">Üür (<?php echo count($uur_posts) ?>)</h5>
+					<h5 id="section-type"  class="column-name">Üür <span id="count-uur">(<?php echo count($uur_posts) ?>)</span></h5>
 				</div>
 				<div class="section-seperator">
 					<h5 class="column-name">Aadress</h5>
@@ -231,7 +215,7 @@ function user_interface()
 
 		<div class="post-sections">
 				<div class="section-seperator">
-					<h5 id="section-type" class="column-name">Lühiajaline Üür (<?php echo count($luhaja_posts) ?>)</h5>
+					<h5 id="section-type" class="column-name">Lühiajaline Üür <span id="count-luhiajaline-uur">(<?php echo count($luhaja_posts) ?>)</span></h5>
 				</div>
 				<div class="section-seperator">
 					<h5 class="column-name">Aadress</h5>

@@ -1,4 +1,14 @@
 <?php
+
+/**
+ * Turns incoming files into WordPress attachments and returns the attachment ID
+ *
+ * @param array $file_array containing the data of the file uploaded through the front-end
+ * 
+ * @author Ervin
+ * @return int the ID for the created attachment
+ */ 
+
 function process_uploaded_image($file_array)
 {
 	// Create upload overrides for wp_handle_upload function

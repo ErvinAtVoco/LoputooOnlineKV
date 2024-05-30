@@ -14,7 +14,7 @@ function render_edit_post_template()
     $asula_linn = get_the_terms($id, "asulalinnaosa");
     $sanitaarruum = unserialize($data['sanitaarruum'][0]);
 
-    error_log(print_r($data, true));
+    // error_log(print_r($data, true));
 
     // Get Thumbnail id and url
     $thumbnail_id = get_post_thumbnail_id($id);
@@ -153,7 +153,7 @@ function render_edit_post_template()
         }
     </script>
 
-    <form id="uus-kuulutus-form" method="post" enctype="multipart/form-data">
+    <form id="edit-listing-form" method="post" enctype="multipart/form-data">
         <div class="form-section">
             <h3>
                 Kinnisvara asukoht
@@ -176,8 +176,8 @@ function render_edit_post_template()
                         </select>
                     </div>
                     <div class="form-object">
-                        <label for="tänav">Tänav<span class="text-red">*</span></label>
-                        <input value='<?php $data['tanav'][0] ?>' id="tänav" type="text" for="tänav" name="tänav" required />
+                        <label for="tanav">Tänav<span class="text-red">*</span></label>
+                        <input value='<?php echo $data['tanav'][0] ?>' id="tanav" type="text" for="tanav" name="tanav" required />
                     </div>
                     <div class="form-object-checkbox">
                         <input type="checkbox" id="otse-omanikult" name="otse-omanikult[]" value="Jah" <?php echo unserialize($data['otse_omanikult'][0])[0] === 'Jah' ? 'checked' : '' ?>>
@@ -413,8 +413,8 @@ function render_edit_post_template()
                     <label for="parkimine">Parkimine</label>
                     <select name="parkimine" id="parkimine">
                         <option <?php echo $data['parkimine'][0] === "Tastua" ? 'selected' : ''; ?> value="Tastua">Tastua</option>
-                        <option <?php echo $data['teedeseisukord'][0] === "Tasuline" ? 'selected' : ''; ?> value="Tasuline">Tasuline</option>
-                        <option <?php echo $data['teedeseisukord'][0] === "Puudub" ? 'selected' : ''; ?> value="Puudub">Puudub</option>
+                        <option <?php echo $data['parkimine'][0] === "Tasuline" ? 'selected' : ''; ?> value="Tasuline">Tasuline</option>
+                        <option <?php echo $data['parkimine'][0] === "Puudub" ? 'selected' : ''; ?> value="Puudub">Puudub</option>
                     </select>
                 </div>
                 <div class="form-object">
@@ -695,8 +695,12 @@ function render_edit_post_template()
                 </button>
             </div>
         </div>
-        <input type="submit" name="submit" />
+        <button type="button" class="upload-button" onclick="submitEdits(<?php echo $id ?>)">Muuda</button>
     </form>
+    <!-- temporary hardcoded redirect -->
+    <div>
+        <a class="upload-button" href="https://easyweb.ee/kv/user-interface/">Tagasi profiilile</a>
+    </div>
     <h3 id="error-result" style="color: red; display: none"></h3>
 
 

@@ -16,4 +16,4 @@ function editPost(id) {
             }
         });
     });
-}
+};

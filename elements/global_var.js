@@ -1,5 +1,4 @@
 // Get user cookie
-let cookie = document.cookie.indexOf('wordpress_logged_in_') !== -1;
 function isUserLoggedIn() {
     if ( document.body.classList.contains( 'logged-in' ) ) {
         return true;

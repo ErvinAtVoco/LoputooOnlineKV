@@ -719,7 +719,7 @@ function uus_kuulutus_form()
 			<button class="next-button" type="button" onclick="nextForm(); submitCurrentForm(1)">
 				Jätka →
 			</button>
-			<button type="button" onclick="previousForm()">
+			<button type="next-button" onclick="previousForm()">
 				Back
 			</button>
 		</div>
@@ -775,6 +775,8 @@ function uus_kuulutus_form()
 			<button class="next-button" type="button" onclick="previousForm()">
 				Back
 			</button>
+			<!-- Hardcoded redirect temporarily to help with the flow on the website -->
+			<a class="redirect-button" href="https://easyweb.ee/kv/user-interface/">Vaata kuulutust porfiililt</a>
 		</div>
 	</form>
 	<h3 id="error-result" style="color: red; display: none"></h3>

@@ -14,8 +14,7 @@
  function return_posts($id, $type){
 	$args = array(
 		'post_type' => 'kuulutus',
-		'numberposts' => 10,
-		'post_status' => 'publish',
+		'post_status' => array('publish','draft'),
 		'author' => $id,
 		'tax_query' => array(
 			array(
@@ -29,23 +28,6 @@
 	return get_posts($args);
  }
 
-/*  function return_posts($id, $amount, $type){
-	$args = [
-		'post_type' => 'kuulutus',
-		'numberposts' => $amount,
-		'post_status' => 'publish',
-		'author' => $id,
-		'tax_query' => [
-			[
-				'taxonomy' => 'tehingu-tuup',
-				'field' => 'slug',
-				'terms' => $type
-			]
-		]
-	];
-
-	return get_posts($args);
-} */
 
 
 /**
@@ -63,6 +45,7 @@ function set_post_data($posts, $type) {
 
 	for ($i = 0; $i < count($posts); $i++) {
         $posts[$i]->type = $type;
+		$posts[$i]->status = get_post_status($posts[$i]->ID);
         $posts[$i]->post_date = date("d-m-Y", strtotime($posts[$i]->post_date));
         $posts[$i]->price = $wpdb->get_var($wpdb->prepare("SELECT meta_value FROM wp_postmeta WHERE meta_key = 'hind' AND post_id = %s", $posts[$i]->ID));
         $posts[$i]->image = get_the_post_thumbnail_url($posts[$i]->ID);
@@ -113,17 +96,14 @@ function user_interface()
 	// GET ÜÜR
 
 	$uur_posts = set_post_data(return_posts(2, 'uur'), 'uur');
-	error_log(json_encode($uur_posts));
 
 	// Get müük
 
 	$muuk_posts = set_post_data(return_posts(2, 'muuk'), 'muuk');
-	error_log(json_encode($muuk_posts));
 
 	// Get müük
 
 	$luhaja_posts = set_post_data(return_posts(2, 'luhiajaline-uur'), 'luhiajaline-uur');
-	error_log(json_encode($luhaja_posts));
 
 	ob_start(); ?>
 	<script src="https://kit.fontawesome.com/dbe83c52a8.js" crossorigin="anonymous"></script>
@@ -166,7 +146,12 @@ function user_interface()
 								<img class="post-image" src=<?php echo $post->image ?> />
 							</div>
 							<div class="post-seperator">
-								<h5 class="post-title"><?php echo $post->post_title ?></h5>
+								<h5 class="post-title"><?php echo $post->post_title ?> 
+								<?php if($post->status == 'draft'){
+									echo '(DRAFT)';
+								} else {
+									echo '(AKTIIVNE)';
+								}?></h5>
 								<p class="post-id"><?php echo $post->ID ?></p>
 							</div>
 							<div class="post-seperator">
@@ -188,8 +173,6 @@ function user_interface()
 					}
 				?>
 			</div>
-			<button onclick="nextPosts(muuk)">Next</button>
-			<button onclick="prevPosts(type)">Back</button>
 		</div>
 
 		<div class="post-sections">
@@ -217,7 +200,12 @@ function user_interface()
 							<img class="post-image" src=<?php echo $post->image ?> />
 						</div>
 						<div class="post-seperator">
-							<h5 class="post-title"><?php echo $post->post_title ?></h5>
+							<h5 class="post-title"><?php echo $post->post_title ?>
+							<?php if($post->status == 'draft'){
+									echo '(DRAFT)';
+								} else {
+									echo '(AKTIIVNE)';
+								}?></h5>
 							<p class="post-id"><?php echo $post->ID ?></p>
 						</div>
 						<div class="post-seperator">
@@ -266,7 +254,12 @@ function user_interface()
 							<img class="post-image" src=<?php echo $post->image ?> />
 						</div>
 						<div class="post-seperator">
-							<h5 class="post-title"><?php echo $post->post_title ?></h5>
+							<h5 class="post-title"><?php echo $post->post_title ?>
+							<?php if($post->status == 'draft'){
+									echo '(DRAFT)';
+								} else {
+									echo '(AKTIIVNE)';
+								}?></h5>
 							<p class="post-id"><?php echo $post->ID ?></p>
 						</div>
 						<div class="post-seperator">

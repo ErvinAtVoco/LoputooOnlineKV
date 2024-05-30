@@ -231,7 +231,7 @@ function update_user_sub($order_id, $old_status, $new_status)
     }
 }
 
-function cancel_sub($meta_id, $object_id, $meta_key, $meta_value)
+function cancel_sub($object_id, $meta_key, $meta_value)
 {
     if ($meta_key !== "wps_subscription_status") {
         return;

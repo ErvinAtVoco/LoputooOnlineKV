@@ -18,6 +18,7 @@ function render_edit_post_template()
 
     // Get Thumbnail id and url
     $thumbnail_id = get_post_thumbnail_id($id);
+    error_log("Thumbail id for post " . $thumbnail_id);
     $thumbnail_url = get_the_post_thumbnail_url($id);
 
     // Get Gallery ids and urls
@@ -26,6 +27,7 @@ function render_edit_post_template()
     foreach ($gallery_ids as $gallery_id) {
         $gallery_urls[] = wp_get_attachment_url($gallery_id);
     };
+    error_log("Gallery ids for post " . json_encode($gallery_ids));
 
     ob_start(); ?>
     <script src="https://kit.fontawesome.com/e1ff197604.js" crossorigin="anonymous"></script>
@@ -85,8 +87,8 @@ function render_edit_post_template()
             let temp;
 
             // Get thumbnail info
-            let thumbnailId = '<?php echo json_encode($thumbnail_id)?>'
-            let thumbnailUrl = '<?php echo json_encode($thumbnail_url)?>
+            let thumbnailId = '<?php echo json_encode($thumbnail_id)?>';
+            let thumbnailUrl = '<?php echo json_encode($thumbnail_url)?>';
             
             // Get gallery info
             let galleryIds = '<?php echo json_encode($gallery_ids) ?>';
@@ -94,9 +96,13 @@ function render_edit_post_template()
 
             // Clear unexpected results from json_encoding
             thumbnailId = JSON.parse(thumbnailId);
+            console.log("thumbnailid in template: " + thumbnailId);
             thumbnailUrl = JSON.parse(thumbnailUrl);
+            console.log("thumbnailurl in template: " + thumbnailUrl);
             galleryIds = JSON.parse(galleryIds);
+            console.log("galleryid in template: " + galleryIds);
             galleryUrls = JSON.parse(galleryUrls);
+            console.log("gallery urls: " + galleryUrls);
 
             // set maakonnad
             for (let i = 0; i < data.length; i++) {
@@ -181,7 +187,7 @@ function render_edit_post_template()
                 <div class="right-container">
                     <div class="form-object">
                         <label for="maja-nr">Maja nr<span class="text-red">*</span></label>
-                        <input value='<?php echo $data['maja_nr'][0] ?>' id="maja-nr" type="number" for="maja-nr" name="maja-nr" maxlength="6" required />
+                        <input value='<?php !empty($data['maja_nr'][0]) ? print $data['maja_nr'][0] : '' ?>' id="maja-nr" type="number" for="maja-nr" name="maja-nr" maxlength="6" required />
                     </div>
                     <div class="form-object">
                         <label for="korter">Korter nr<span class="text-red">*</span></label>
@@ -306,19 +312,19 @@ function render_edit_post_template()
 
                     <h3>Sanitaarruum</h3>
                     <div class="form-object-checkbox">
-                        <input type="checkbox" id="Vann" name="sanitaarruum[]" value="Vann" <?php echo in_array("Vann", $sanitaarruum) ? 'checked' : ''; ?> />
+                        <input type="checkbox" id="Vann" name="sanitaarruum[]" value="Vann" <?php echo !empty($sanitaarruum) && in_array("Vann", $sanitaarruum) ? 'checked' : ''; ?> />
                         <label for="Vann">Vann</label>
                     </div>
                     <div class="form-object-checkbox">
-                        <input type="checkbox" id="Dušš" name="sanitaarruum[]" value="Dušš" <?php echo in_array("Dušš", $sanitaarruum) ? 'checked' : ''; ?> />
+                        <input type="checkbox" id="Dušš" name="sanitaarruum[]" value="Dušš" <?php echo !empty($sanitaarruum) && in_array("Dušš", $sanitaarruum) ? 'checked' : ''; ?> />
                         <label for="Dušš">Dušš</label>
                     </div>
                     <div class="form-object-checkbox">
-                        <input type="checkbox" id="Pesumasin" name="sanitaarruum[]" value="Pesumasin" <?php echo in_array("Pesumasin", $sanitaarruum) ? 'checked' : ''; ?> />
+                        <input type="checkbox" id="Pesumasin" name="sanitaarruum[]" value="Pesumasin" <?php echo !empty($sanitaarruum) && in_array("Pesumasin", $sanitaarruum) ? 'checked' : ''; ?> />
                         <label for="Pesumasin">Pesumasin</label>
                     </div>
                     <div class="form-object-checkbox">
-                        <input type="checkbox" id="Saun" name="sanitaarruum[]" value="Saun" <?php echo in_array("Saun", $sanitaarruum) ? 'checked' : ''; ?> />
+                        <input type="checkbox" id="Saun" name="sanitaarruum[]" value="Saun" <?php echo !empty($sanitaarruum) && in_array("Saun", $sanitaarruum) ? 'checked' : ''; ?> />
                         <label for="Saun">Saun</label>
                     </div>
                     <div class="form-object-checkbox">
@@ -334,24 +340,24 @@ function render_edit_post_template()
                 <div class="right-container">
                     <h3>Naabruskond</h3>
                     <div class="form-object-checkbox">
-                        <input type="checkbox" id="Väike" name="naabruskond[]" value="Väike" <?php echo in_array("Väike", unserialize($data['naabruskond'][0])) ? 'checked' : ''; ?> />
+                        <input type="checkbox" id="Väike" name="naabruskond[]" value="Väike" <?php echo !empty($data['naabruskond'][0]) && in_array("Väike", unserialize($data['naabruskond'][0])) ? 'checked' : ''; ?> />
                         <label for="Väike">Väike</label>
                     </div>
                     <div class="form-object-checkbox">
-                        <input type="checkbox" id="Suur" name="naabruskond[]" value="Suur" <?php echo in_array("Suur", unserialize($data['naabruskond'][0])) ? 'checked' : ''; ?> />
+                        <input type="checkbox" id="Suur" name="naabruskond[]" value="Suur" <?php echo !empty($data['naabruskond'][0]) && in_array("Suur", unserialize($data['naabruskond'][0])) ? 'checked' : ''; ?> />
                         <label for="Suur">Suur</label>
                     </div>
                     <div class="form-object-checkbox">
-                        <input type="checkbox" id="Rahulik" name="naabruskond[]" value="Rahulik" <?php echo in_array("Rahulik", unserialize($data['naabruskond'][0])) ? 'checked' : ''; ?> />
+                        <input type="checkbox" id="Rahulik" name="naabruskond[]" value="Rahulik" <?php echo !empty($data['naabruskond'][0]) && in_array("Rahulik", unserialize($data['naabruskond'][0])) ? 'checked' : ''; ?> />
                         <label for="Rahulik">Rahulik</label>
                     </div>
                     <div class="form-object-checkbox">
-                        <input type="checkbox" id="Palju tegevusi" name="naabruskond[]" value="Palju tegevusi" <?php echo in_array("Palju tegevusi", unserialize($data['naabruskond'][0])) ? 'checked' : ''; ?> />
+                        <input type="checkbox" id="Palju tegevusi" name="naabruskond[]" value="Palju tegevusi" <?php echo !empty($data['naabruskond'][0]) && in_array("Palju tegevusi", unserialize($data['naabruskond'][0])) ? 'checked' : ''; ?> />
                         <label for="Palju tegevusi">Palju tegevusi</label>
                     </div>
                     <div class="form-object">
                         <label for="muu-naabruskond">Muu naabruskond</label>
-                        <input type="text" id="muu-naabruskond" name="muu-naabruskond" value='<?php echo $data['naabruskond_muu'][0] ?>'>
+                        <input type="text" id="muu-naabruskond" name="muu-naabruskond" value='<?php echo $data['muu_naabruskond'][0] ?>'>
                     </div>
                     <h3>Köök</h3>
                     <div class="form-object">
@@ -376,27 +382,27 @@ function render_edit_post_template()
                     Lisapinnad ja parkimine
                 </h3>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="rõdu" name="lisapinnad[]" value="rõdu" <?php echo in_array("rõdu", unserialize($data['lisapinnad'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="rõdu" name="lisapinnad[]" value="rõdu" <?php echo !empty($data['lisapinnad'][0]) && in_array("rõdu", unserialize($data['lisapinnad'][0])) ? 'checked' : ''; ?> />
                     <label for="rõdu">Rõdu</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="terrass" name="lisapinnad[]" value="terrass" <?php echo in_array("terrass", unserialize($data['lisapinnad'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="terrass" name="lisapinnad[]" value="terrass" <?php echo !empty($data['lisapinnad'][0]) && in_array("terrass", unserialize($data['lisapinnad'][0])) ? 'checked' : ''; ?> />
                     <label for="terrass">Terrass</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="garaaž" name="lisapinnad[]" value="garaaž" <?php echo in_array("garaaž", unserialize($data['lisapinnad'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="garaaž" name="lisapinnad[]" value="garaaž" <?php echo !empty($data['lisapinnad'][0]) && in_array("garaaž", unserialize($data['lisapinnad'][0])) ? 'checked' : ''; ?> />
                     <label for="garaaž">Garaaž</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="eraldi panipaik" name="lisapinnad[]" value="eraldi panipaik" <?php echo in_array("eraldi panipaik", unserialize($data['lisapinnad'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="eraldi panipaik" name="lisapinnad[]" value="eraldi panipaik" <?php echo !empty($data['lisapinnad'][0]) && in_array("eraldi panipaik", unserialize($data['lisapinnad'][0])) ? 'checked' : ''; ?> />
                     <label for="eraldi panipaik">Eraldi panipaik</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="majaalune kelder" name="lisapinnad[]" value="majaalune kelder" <?php echo in_array("majaalune kelder", unserialize($data['lisapinnad'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="majaalune kelder" name="lisapinnad[]" value="majaalune kelder" <?php echo !empty($data['lisapinnad'][0]) && in_array("majaalune kelder", unserialize($data['lisapinnad'][0])) ? 'checked' : ''; ?> />
                     <label for="majaalune kelder">Majaalune kelder</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="kõrvalhoone" name="lisapinnad[]" value="kõrvalhoone" <?php echo in_array("kõrvalhoone", unserialize($data['lisapinnad'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="kõrvalhoone" name="lisapinnad[]" value="kõrvalhoone" <?php echo !empty($data['lisapinnad'][0]) && in_array("kõrvalhoone", unserialize($data['lisapinnad'][0])) ? 'checked' : ''; ?> />
                     <label for="kõrvalhoone">Kõrvalhoone</label>
                 </div>
                 <div class="form-object">
@@ -427,23 +433,23 @@ function render_edit_post_template()
                     </select>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="Kõnnitee" name="olemasolevad-teed[]" value="Kõnnitee" <?php echo in_array("Kõnnitee", unserialize($data['olemasolevad_teed'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="Kõnnitee" name="olemasolevad-teed[]" value="Kõnnitee" <?php echo !empty($data['olemasolevad_teed'][0]) && in_array("Kõnnitee", unserialize($data['olemasolevad_teed'][0])) ? 'checked' : ''; ?> />
                     <label for="Kõnnitee">Kõnnitee</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="Kergliiklustee" name="olemasolevad-teed[]" value="Kergliiklustee" <?php echo in_array("Kergliiklustee", unserialize($data['olemasolevad_teed'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="Kergliiklustee" name="olemasolevad-teed[]" value="Kergliiklustee" <?php echo !empty($data['olemasolevad_teed'][0]) && in_array("Kergliiklustee", unserialize($data['olemasolevad_teed'][0])) ? 'checked' : ''; ?> />
                     <label for="Kergliiklustee">Kergliiklustee</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="Sissesõit" name="olemasolevad-teed[]" value="Sissesõit" <?php echo in_array("Sissesõit", unserialize($data['olemasolevad_teed'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="Sissesõit" name="olemasolevad-teed[]" value="Sissesõit" <?php echo !empty($data['olemasolevad_teed'][0]) && in_array("Sissesõit", unserialize($data['olemasolevad_teed'][0])) ? 'checked' : ''; ?> />
                     <label for="Sissesõit">Sissesõit</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="Asfalttee" name="olemasolevad-teed[]" value="Asfalttee" <?php echo in_array("Asfalttee", unserialize($data['olemasolevad_teed'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="Asfalttee" name="olemasolevad-teed[]" value="Asfalttee" <?php echo !empty($data['olemasolevad_teed'][0]) && in_array("Asfalttee", unserialize($data['olemasolevad_teed'][0])) ? 'checked' : ''; ?> />
                     <label for="Asfalttee">Asfalttee</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="Kruusatee" name="olemasolevad-teed[]" value="Kruusatee" <?php echo in_array("Kruusatee", unserialize($data['olemasolevad_teed'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="Kruusatee" name="olemasolevad-teed[]" value="Kruusatee" <?php echo !empty($data['olemasolevad_teed'][0]) && in_array("Kruusatee", unserialize($data['olemasolevad_teed'][0])) ? 'checked' : ''; ?> />
                     <label for="Kruusatee">Kruusatee</label>
                 </div>
                 <div class="form-object">
@@ -454,31 +460,31 @@ function render_edit_post_template()
                     Lisad
                 </h3>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="bassein" name="lisad[]" value="Bassein" <?php echo in_array("Bassein", unserialize($data['lisad'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="bassein" name="lisad[]" value="Bassein" <?php echo !empty($data['lisad'][0]) && in_array("Bassein", unserialize($data['lisad'][0])) ? 'checked' : ''; ?> />
                     <label for="bassein">Bassein</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="lift" name="lisad[]" value="Lift" <?php echo in_array("Lift", unserialize($data['lisad'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="lift" name="lisad[]" value="Lift" <?php echo !empty($data['lisad'][0]) && in_array("Lift", unserialize($data['lisad'][0])) ? 'checked' : ''; ?> />
                     <label for="lift">Lift</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="mullivann" name="lisad[]" value="Mullivann" <?php echo in_array("Mullivann", unserialize($data['lisad'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="mullivann" name="lisad[]" value="Mullivann" <?php echo !empty($data['lisad'][0]) && in_array("Mullivann", unserialize($data['lisad'][0])) ? 'checked' : ''; ?> />
                     <label for="mullivann">Mullivann</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="garderoob" name="lisad[]" value="Garderoob" <?php echo in_array("Garderoob", unserialize($data['lisad'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="garderoob" name="lisad[]" value="Garderoob" <?php echo !empty($data['lisad'][0]) && in_array("Garderoob", unserialize($data['lisad'][0])) ? 'checked' : ''; ?> />
                     <label for="garderoob">Garderoob</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="kamin" name="lisad[]" value="Kamin" <?php echo in_array("Kamin", unserialize($data['lisad'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="kamin" name="lisad[]" value="Kamin" <?php echo !empty($data['lisad'][0]) && in_array("Kamin", unserialize($data['lisad'][0])) ? 'checked' : ''; ?> />
                     <label for="kamin">Kamin</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="jõusaal" name="lisad[]" value="Jõusaal" <?php echo in_array("Jõusaal", unserialize($data['lisad'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="jõusaal" name="lisad[]" value="Jõusaal" <?php echo !empty($data['lisad'][0]) && in_array("Jõusaal", unserialize($data['lisad'][0])) ? 'checked' : ''; ?> />
                     <label for="jõusaal">Jõusaal</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="lemmikloom" name="lisad[]" value="Lemmikloom lubatud" <?php echo in_array("Lemmikloom lubatud", unserialize($data['lisad'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="lemmikloom" name="lisad[]" value="Lemmikloom lubatud" <?php echo !empty($data['lisad'][0]) && in_array("Lemmikloom lubatud", unserialize($data['lisad'][0])) ? 'checked' : ''; ?> />
                     <label for="Lemmikloom">Lemmikloomad lubatud</label>
                 </div>
                 <div class="form-object">
@@ -491,19 +497,19 @@ function render_edit_post_template()
                     Tehnosüsteemid
                 </h3>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="Tsentraalne soe vesi" name="soe-vesi[]" value="Tsentraalne soe vesi" <?php echo in_array("Tsentraalne soe vesi", unserialize($data['soe_vesi'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="Tsentraalne soe vesi" name="soe-vesi[]" value="Tsentraalne soe vesi" <?php echo !empty($data['soe_vesi'][0]) && in_array("Tsentraalne soe vesi", unserialize($data['soe_vesi'][0])) ? 'checked' : ''; ?> />
                     <label for="tsentraalne soe vesi">Tsentraalne soe vesi</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="boiler" name="soe-vesi[]" value="Boiler" <?php echo in_array("Boiler", unserialize($data['soe_vesi'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="boiler" name="soe-vesi[]" value="Boiler" <?php echo !empty($data['soe_vesi'][0]) && in_array("Boiler", unserialize($data['soe_vesi'][0])) ? 'checked' : ''; ?> />
                     <label for="boiler">Boiler</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="soojuspump" name="soe-vesi[]" value="Soojuspump" <?php echo in_array("Soojuspump", unserialize($data['soe_vesi'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="soojuspump" name="soe-vesi[]" value="Soojuspump" <?php echo !empty($data['soe_vesi'][0]) && in_array("Soojuspump", unserialize($data['soe_vesi'][0])) ? 'checked' : ''; ?> />
                     <label for="soojuspump">Soojuspump</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="päiksepaneel" name="soe-vesi[]" value="Päiksepaneel" <?php echo in_array("Päiksepaneel", unserialize($data['soe_vesi'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="päiksepaneel" name="soe-vesi[]" value="Päiksepaneel" <?php echo !empty($data['soe_vesi'][0]) && in_array("Päiksepaneel", unserialize($data['soe_vesi'][0])) ? 'checked' : ''; ?> />
                     <label for="päiksepaneel">Päiksepaneel</label>
                 </div>
                 <div class="form-object">
@@ -535,21 +541,21 @@ function render_edit_post_template()
                 </div>
                 <div class="form-object">
                     <label for="muu-kanalisatsioon">Muu kanalisatsioon</label>
-                    <input type="text" id="muu-kanalisatsioon" name="muu-kanalisatsioon" value='<?php echo $data['muu-kanalisatsioon'][0] ?>' />
+                    <input type="text" id="muu-kanalisatsioon" name="muu-kanalisatsioon" value='<?php echo $data['muu_kanalisatsioon'][0] ?>' />
                 </div>
                 <h3>
                     Side
                 </h3>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="Internet" name="side[]" value="Internet" <?php echo in_array("Internet", unserialize($data['side'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="Internet" name="side[]" value="Internet" <?php echo !empty($data['side'][0]) && in_array("Internet", unserialize($data['side'][0])) ? 'checked' : ''; ?> />
                     <label for="Internet">Internet</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="Kaabel" name="side[]" value="Kaabel" <?php echo in_array("Kaabel", unserialize($data['side'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="Kaabel" name="side[]" value="Kaabel" <?php echo !empty($data['side'][0]) && in_array("Kaabel", unserialize($data['side'][0])) ? 'checked' : ''; ?> />
                     <label for="Kaabel">Kaabel</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="Telefon" name="side[]" value="Telefon" <?php echo in_array("Telefon", unserialize($data['side'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="Telefon" name="side[]" value="Telefon" <?php echo !empty($data['side'][0]) && in_array("Telefon", unserialize($data['side'][0])) ? 'checked' : ''; ?> />
                     <label for="Telefon">Telefon</label>
                 </div>
                 <div class="form-object">
@@ -560,23 +566,23 @@ function render_edit_post_template()
                     Turvalisus
                 </h3>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="naabrivalve" name="turvalisus[]" value="Naabrivalve" <?php echo in_array("Naabrivalve", unserialize($data['turvalisus'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="naabrivalve" name="turvalisus[]" value="Naabrivalve" <?php echo !empty($data['turvalisus'][0]) && in_array("Naabrivalve", unserialize($data['turvalisus'][0])) ? 'checked' : ''; ?> />
                     <label for="naabrivalve">Naabrivalve</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="videovalve" name="turvalisus[]" value="Videovalve" <?php echo in_array("Videovalve", unserialize($data['turvalisus'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="videovalve" name="turvalisus[]" value="Videovalve" <?php echo !empty($data['turvalisus'][0]) && in_array("Videovalve", unserialize($data['turvalisus'][0])) ? 'checked' : ''; ?> />
                     <label for="videovalve">Videovalve</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="trepikoda-lukus" name="turvalisus[]" value="Trepikoda lukus" <?php echo in_array("Trepikoda lukus", unserialize($data['turvalisus'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="trepikoda-lukus" name="turvalisus[]" value="Trepikoda lukus" <?php echo !empty($data['turvalisus'][0]) && in_array("Trepikoda lukus", unserialize($data['turvalisus'][0])) ? 'checked' : ''; ?> />
                     <label for="trepikoda-lukus">Trepikoda lukus</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="turvauks" name="turvalisus[]" value="Turvauks" <?php echo in_array("Turvauks", unserialize($data['turvalisus'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="turvauks" name="turvalisus[]" value="Turvauks" <?php echo !empty($data['turvalisus'][0]) && in_array("Turvauks", unserialize($data['turvalisus'][0])) ? 'checked' : ''; ?> />
                     <label for="turvauks">Turvauks</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="valvur" name="turvalisus[]" value="Valvur" <?php echo in_array("Valvur", unserialize($data['turvalisus'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="valvur" name="turvalisus[]" value="Valvur" <?php echo !empty($data['turvalisus'][0]) && in_array("Valvur", unserialize($data['turvalisus'][0])) ? 'checked' : ''; ?> />
                     <label for="valvur">Valvur</label>
                 </div>
                 <div class="form-object">
@@ -587,31 +593,31 @@ function render_edit_post_template()
                     Küttesüsteemid
                 </h3>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="keskküte" name="kuttesusteem[]" value="Keskküte" <?php echo in_array("Keskküte", unserialize($data['kuttesusteem'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="keskküte" name="kuttesusteem[]" value="Keskküte" <?php echo !empty($data['kuttesusteem'][0]) && in_array("Keskküte", unserialize($data['kuttesusteem'][0])) ? 'checked' : ''; ?> />
                     <label for="keskküte">Keskküte</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="ahjuküte" name="kuttesusteem[]" value="Ahjuküte" <?php echo in_array("Ahjuküte", unserialize($data['kuttesusteem'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="ahjuküte" name="kuttesusteem[]" value="Ahjuküte" <?php echo !empty($data['kuttesusteem'][0]) && in_array("Ahjuküte", unserialize($data['kuttesusteem'][0])) ? 'checked' : ''; ?> />
                     <label for="ahjuküte">Ahjuküte</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="elektriküte" name="kuttesusteem[]" value="Elektriküte" <?php echo in_array("Elektriküte", unserialize($data['kuttesusteem'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="elektriküte" name="kuttesusteem[]" value="Elektriküte" <?php echo !empty($data['kuttesusteem'][0]) && in_array("Elektriküte", unserialize($data['kuttesusteem'][0])) ? 'checked' : ''; ?> />
                     <label for="elektriküte">Elektriküte</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="gaasiküte" name="kuttesusteem[]" value="Gaasiküte" <?php echo in_array("Gaasiküte", unserialize($data['kuttesusteem'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="gaasiküte" name="kuttesusteem[]" value="Gaasiküte" <?php echo !empty($data['kuttesusteem'][0]) && in_array("Gaasiküte", unserialize($data['kuttesusteem'][0])) ? 'checked' : ''; ?> />
                     <label for="gaasiküte">Gaasiküte</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="põrandaküte" name="kuttesusteem[]" value="Põrandaküte" <?php echo in_array("Põrandaküte", unserialize($data['kuttesusteem'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="põrandaküte" name="kuttesusteem[]" value="Põrandaküte" <?php echo !empty($data['kuttesusteem'][0]) && in_array("Põrandaküte", unserialize($data['kuttesusteem'][0])) ? 'checked' : ''; ?> />
                     <label for="põrandaküte">Põrandaküte</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="maaküte" name="kuttesusteem[]" value="Maaküte" <?php echo in_array("Maaküte", unserialize($data['kuttesusteem'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="maaküte" name="kuttesusteem[]" value="Maaküte" <?php echo !empty($data['kuttesusteem'][0]) && in_array("Maaküte", unserialize($data['kuttesusteem'][0])) ? 'checked' : ''; ?> />
                     <label for="maaküte">Maaküte</label>
                 </div>
                 <div class="form-object-checkbox">
-                    <input type="checkbox" id="konditsioneer" name="kuttesusteem[]" value="Konditsioneer" <?php echo in_array("Konditsioneer", unserialize($data['kuttesusteem'][0])) ? 'checked' : ''; ?> />
+                    <input type="checkbox" id="konditsioneer" name="kuttesusteem[]" value="Konditsioneer" <?php echo !empty($data['kuttesusteem'][0]) && in_array("Konditsioneer", unserialize($data['kuttesusteem'][0])) ? 'checked' : ''; ?> />
                     <label for="konditsioneer">Konditsioneer</label>
                 </div>
                 <div class="form-object">
@@ -628,13 +634,13 @@ function render_edit_post_template()
                 <div class="left-container">
                     <div class="form-object">
                         <label for="kommunaal-suvi">Suvel keskmiselt</label>
-                        <input type="number" id="kommunaal-suvi" name="kommunaal-suvi" value='<?php echo $data['komunaal_suvi'][0] ?>' />
+                        <input type="number" id="kommunaal-suvi" name="kommunaal-suvi" value='<?php echo $data['kommunaal_suvi'][0] ?>' />
                     </div>
                 </div>
                 <div class="right-container">
                     <div class="form-object">
                         <label for="kommunaal-talv">Talvel keskmiselt</label>
-                        <input type="number" id="kommunaal-talv" name="kommunaal-talv" value='<?php echo $data['komunaal_talv'][0] ?>' />
+                        <input type="number" id="kommunaal-talv" name="kommunaal-talv" value='<?php echo $data['kommunaal_talv'][0] ?>' />
                     </div>
                 </div>
             </div>

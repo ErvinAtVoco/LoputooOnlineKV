@@ -1,3 +1,5 @@
+// jQuery function to render the initial posts, wasn't necessary to use
+// replaced by a initial wordpress get_posts in user_interface.php
 /* jQuery(function ($) {
     $.ajax({
         type: 'POST',
@@ -29,6 +31,8 @@
     })
 }); */
 
+// Function to get the next set of posts' json encoded data using the function in post_display_handler.php added as a ajax action and pass it to render_posts
+// Potentially to be removed, as it may not be necessary to not render all the users posts in one go
 function nextPosts(type) {
     jQuery(function ($) {
         $.ajax({
@@ -50,6 +54,8 @@ function nextPosts(type) {
     });
 };
 
+// Function to get the previous set of posts' json encoded data using the function in post_display_handler.php added as a ajax action and pass it to render_posts
+// Potentially to be removed, as it may not be necessary to not render all the users posts in one go
 function prevPosts(type) {
     jQuery(function ($) {
         $.ajax({
@@ -71,6 +77,7 @@ function prevPosts(type) {
     });
 }
 
+// Function to render posts with html using json encoded data from jquery ajax
 function render_posts(response, type) {
     let container = document.getElementById(type + '-posts');
     container.innerHTML = "";

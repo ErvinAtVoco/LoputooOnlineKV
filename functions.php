@@ -54,6 +54,11 @@ require_once WP_CONTENT_DIR . '/themes/bricks-child/elements/backend_error_handl
 // Setup JavaScript and Jquery scripts based on page
 function enqueue_scripts()
   {
+	
+	//global
+	 wp_enqueue_script('filter-js', get_stylesheet_directory_uri() . '/elements/filter/filter_form.js', array('jquery'), null, true);
+	 wp_localize_script('filter-js', 'filterAjax', array('ajaxurl' => admin_url('admin-ajax.php')));
+	
     if (is_page('test-post-preview')) {
 
       require_once('elements/form/custom_form.php');

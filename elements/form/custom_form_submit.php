@@ -1,7 +1,18 @@
 <?php
 
 
-
+function send_error($msg, $error_code) {
+	if($msg === "") {
+		wp_send_json_error('Kontrollige, et sisestatud informatsioon oleks korrektne', $error_code);
+	} else if($error_code === 0) {
+		wp_send_json_error($msg, 406);
+	} else if($error_code === 0 && $msg === ""){
+		wp_send_json_error('Kontrollige, et sisestatud informatsioon oleks korrektne', 406);
+	} else {
+		wp_send_json_error($msg, $error_code);
+	}
+	wp_die();
+}
 
 function handle_create_post()
 {
@@ -38,8 +49,25 @@ function handle_create_post()
 			$tanav = $_POST['tänav'];
 			$omandivorm = $_POST['omandivorm'];
 
-			check_regex_of_array([$_POST['tänav']], $free_text_pattern);
-			check_regex_of_array([$_POST['tubade-arv'], $_POST['korrus'], $_POST['korruseid-kokku'], $_POST['pindala'], $_POST['ehitusaasta'], $_POST['korter'], $_POST['postiindeks'], $_POST['maja-nr'], $_POST['hind'], $_POST['kinnistu-number'], $_POST['katastrinumber']], $index_pattern);
+			if(!check_regex_of_array([$maakond, $linn_vald, $asula, $tanav], $free_text_pattern, true)){
+				send_error("", 0);
+			}
+
+			if(!check_regex_of_array([$_POST['maja-nr'], $_POST['korter'], $_POST['tubade-arv'],  $_POST['korrus'], $_POST['pindala'], $_POST['hind']], $index_pattern, true)){
+				send_error("", 0);
+			}
+
+			if(!check_regex_of_array([$_POST['omandivorm'], $_POST['energiaklass'], $_POST['seisukord']], $free_text_pattern, true)){
+				send_error("", 0);
+			}
+
+			if(!check_regex_of_array([$_POST['postiindeks'], $_POST['korruseid-kokku'], $_POST['ehitusaasta']], $index_pattern, false)){
+				send_error("", 0);
+			}
+
+			if(!check_regex_of_array([$_POST['kinnistu-number'], $_POST['katastrinumber']], $index_pattern, false)){
+				send_error("", 0);
+			}
 
 			try {
 				$format = numfmt_create('eu', NumberFormatter::CURRENCY);
@@ -109,8 +137,15 @@ function handle_create_post()
 		case 1:
 			$new_post = $wpdb->get_var($wpdb->prepare('SELECT meta_value FROM wp_usermeta WHERE meta_key = "recent_draft" AND user_id = %s', $user_id));
 
-			check_regex_of_array([$_POST['muu-sanitaarruum'], $_POST['muu-naabruskond'], $_POST['muu-lisapind'], $_POST['muud-olemasolevad-teed'], $_POST['muu-soevesi'], $_POST['muu-veevarustus'], $_POST['muu-kanalisatsioon'], $_POST['muu-side'], $_POST['muu-turvalisus'], $_POST['muu-kuttesusteem']], $free_text_pattern);
-			check_regex_of_array([$_POST['magamistubade-arv'], $_POST['vannitubade-arv'], $_POST['kommunaal-suvi'], $_POST['kommunaal-talv']], $index_pattern);
+
+			if(!check_regex_of_array([$_POST['muu-sanitaarruum'], $_POST['muu-naabruskond'], $_POST['muu-lisapind'], $_POST['muud-olemasolevad-teed'], $_POST['muu-soevesi'], $_POST['muu-veevarustus'], $_POST['muu-kanalisatsioon'], $_POST['muu-side'], $_POST['muu-turvalisus'], $_POST['muu-kuttesusteem']], $free_text_pattern, false)){
+				send_error("", 0);
+			}
+
+			if(!check_regex_of_array([$_POST['magamistubade-arv'], $_POST['vannitubade-arv'], $_POST['kommunaal-suvi'], $_POST['kommunaal-talv']], $index_pattern, false)){
+				send_error("", 0);
+			}
+
 			
 			$post_data = [
 				"ID" => intval($new_post),
@@ -158,7 +193,9 @@ function handle_create_post()
 
 			$new_post = $wpdb->get_var($wpdb->prepare('SELECT meta_value FROM wp_usermeta WHERE meta_key = "recent_draft" AND user_id = %s', $user_id));
 
-			check_regex_of_array([$_POST['content']], $free_text_pattern);
+			if(!check_regex_of_array([$_POST['content']], $free_text_pattern, true)){
+				send_error("", 0);
+			}
 
 			$post_data = [
 				"ID" => intval($new_post),

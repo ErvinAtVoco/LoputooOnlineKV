@@ -198,7 +198,7 @@ function submitCurrentForm(segment) {
 			processData: false,
 			error: function (xhr, status, error) {
 				let errorMsg = `${JSON.parse(xhr.responseText).data}`;
-				document.getElementById('error-result').innerHtml = "";
+				errorContainer.innerHtml = "";
 				let textNode = document.createTextNode(errorMsg);
 				errorContainer.appendChild(textNode);
 			}

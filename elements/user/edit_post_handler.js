@@ -26,9 +26,13 @@ let thumbnailUploadButton = document.querySelector("#thumbnail-button");
 // Function to recieve images info from php on element load
 function transferAttachmentInfo(galIds, galUrls, thumbId, thumbUrl) {
     galleryIds = galIds;
+	console.log("galIds: " + galleryIds);
     galleryUrls = galUrls;
+	console.log("galUrls: " + galleryUrls);
     thumbnailId = thumbId;
+	console.log("thumbId: " + thumbnailId);
     thumbnailUrl = thumbUrl;
+	console.log("thumbUrl " + thumbnailUrl);
     if (thumbnailUrl.length !== 0) {
         showExistingThumbnail(thumbnailId, thumbnailUrl);
     }
@@ -40,8 +44,8 @@ function transferAttachmentInfo(galIds, galUrls, thumbId, thumbUrl) {
 // Function to display the thumbnail already uploaded with the post 
 function showExistingThumbnail(thumbId, thumbUrl) {
 		thImage += `<div class="uploaded-image">
-						<img src="${thumbUrl[0]}" alt="image">
-						<span class="delete-image-button" onclick="deleteThumbnailImage(0)"><i class="fa-solid fa-trash-can text-red"></i></span>
+						<img src="${thumbUrl}" alt="image">
+						<span class="delete-image-button" onclick="deleteExistingThumbnail(0)"><i class="fa-solid fa-trash-can text-red"></i></span>
 					</div>`
 	uploadedThumbnailDiv.innerHTML = thImage;
 };
@@ -49,8 +53,10 @@ function showExistingThumbnail(thumbId, thumbUrl) {
 // Function to delete already uploaded thumbnail
 function deleteExistingThumbnail(index) {
     thImage = "";
-	thumbnailId.splice(index, 1);
-    thumbnailUrl.splice(index, 1);
+	thumbnailId = "";
+    thumbnailUrl= "";
+	console.log("this is the id after splice: " + thumbnailId);
+	console.log("this is url after splice: " + thumbnailUrl);
     uploadedThumbnailDiv.innerHTML = thImage;
 }
 

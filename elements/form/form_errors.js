@@ -2,7 +2,7 @@
 let errorContainer = document.getElementById('error-result');
 
 // Checking if user has a valid cookie/is logged in
-if (cookie) {
+if (isUserLoggedIn()) {
 	userConfirmed = true;
 }
 
